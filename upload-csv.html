@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Students CSV - AIML Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="auth-header">
+            <h1><i class="fas fa-file-csv"></i> Upload Students</h1>
+            <p>Upload CSV file with student credentials</p>
+        </header>
+
+        <main class="auth-main">
+            <div class="auth-form-container">
+                <div class="info-box" style="background: #e8f4fd; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <h4>CSV Format Required:</h4>
+                    <code style="display: block; background: #f8f9fa; padding: 10px; border-radius: 4px; margin: 10px 0;">
+                        Name,password<br>
+                        John Doe,pass123<br>
+                        Jane Smith,pass456
+                    </code>
+                </div>
+
+                <form id="uploadForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="csvFile">
+                            <i class="fas fa-upload"></i> Select CSV File
+                        </label>
+                        <input type="file" id="csvFile" name="csvFile" accept=".csv" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-upload"></i> Upload & Add Students
+                    </button>
+                </form>
+
+                <div id="results" style="margin-top: 20px;"></div>
+
+                <div class="auth-links">
+                    <p><a href="admin.html?admin=admin2024">Admin Panel</a></p>
+                    <p><a href="index.html">Back to Home</a></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check admin access
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('admin') !== 'admin2024') {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            document.getElementById('uploadForm').addEventListener('submit', handleUpload);
+        });
+
+        async function handleUpload(event) {
+            event.preventDefault();
+            
+            const fileInput = document.getElementById('csvFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Please select a CSV file');
+                return;
+            }
+
+            // Wait for Supabase
+            let supabase = null;
+            let attempts = 0;
+            while ((!supabase || typeof supabase.from !== 'function') && attempts < 20) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+                if (!supabase && window.getSupabase) {
+                    supabase = window.getSupabase();
+                }
+            }
+            
+            if (!supabase || typeof supabase.from !== 'function') {
+                alert('Database not ready. Please refresh and try again.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const csv = e.target.result;
+                const students = parseCSV(csv);
+                
+                if (students.length === 0) {
+                    alert('No valid student data found in CSV');
+                    return;
+                }
+
+                await uploadStudents(students);
+            };
+            reader.readAsText(file);
+        }
+
+        function parseCSV(csv) {
+            const lines = csv.split('\n');
+            const students = [];
+            
+            // Skip header row, process data rows
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+                
+                const cols = line.split(',');
+                if (cols.length >= 2) {
+                    const fullName = cols[0].trim();
+                    const password = cols[1].trim();
+                    
+                    students.push({
+                        full_name: fullName,
+                        password: password,
+                        has_attempted: false,
+                        quiz_score: null,
+                        quiz_completed_at: null
+                    });
+                }
+            }
+            
+            return students;
+        }
+
+        async function uploadStudents(students) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<p>Uploading ' + students.length + ' students...</p>';
+            
+            let success = 0;
+            let failed = 0;
+            
+            for (const student of students) {
+                try {
+                    const { error } = await supabase
+                        .from('students')
+                        .insert([student]);
+                    
+                    if (error) {
+                        console.error('Failed to add:', student.user_id, error);
+                        failed++;
+                    } else {
+                        success++;
+                    }
+                } catch (e) {
+                    console.error('Error:', e);
+                    failed++;
+                }
+            }
+            
+            resultsDiv.innerHTML = `
+                <div style="padding: 15px; background: ${failed === 0 ? '#d4edda' : '#fff3cd'}; border-radius: 8px;">
+                    <h3>Upload Complete</h3>
+                    <p>✅ Successfully added: ${success} students</p>
+                    ${failed > 0 ? `<p>❌ Failed: ${failed} students</p>` : ''}
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

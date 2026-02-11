@@ -1,0 +1,19 @@
+{
+  "name": "windsurf-project-2",
+  "version": "1.0.0",
+  "description": "A comprehensive quiz competition platform for the AIML department with secure authentication, real-time monitoring, and anti-cheating features.",
+  "main": "admin.js",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8000",
+    "serve": "python -m http.server 8000",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.95.3"
+  }
+}
