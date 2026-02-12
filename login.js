@@ -36,14 +36,43 @@ async function handleLogin(event) {
     }
     
     try {
-        const { data: student, error } = await supabase
-            .from('students')
-            .select('*')
-            .eq('full_name', fullName)
-            .eq('password', password)
-            .single();
+        let student = null;
+        let error = null;
+        let retries = 3;
         
-        if (error || !student) {
+        // Retry logic for 406 errors
+        while (retries > 0) {
+            const result = await supabase
+                .from('students')
+                .select('*')
+                .eq('full_name', fullName)
+                .eq('password', password)
+                .maybeSingle();
+            
+            student = result.data;
+            error = result.error;
+            
+            if (error && (error.code === '406' || error.message?.includes('Not Acceptable'))) {
+                retries--;
+                if (retries > 0) {
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    continue;
+                }
+            }
+            break;
+        }
+        
+        if (error) {
+            console.error('Supabase error:', error);
+            if (error.code === '406' || error.message?.includes('Not Acceptable')) {
+                showError('Database connection issue. Please try again in a moment.');
+            } else {
+                showError('Invalid Name or Password');
+            }
+            return;
+        }
+        
+        if (!student) {
             showError('Invalid Name or Password');
             return;
         }

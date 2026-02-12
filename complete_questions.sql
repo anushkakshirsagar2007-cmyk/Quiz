@@ -1,5 +1,5 @@
--- Add new questions to the database
--- Replace with your desired questions
+-- Complete questions database
+-- All questions for AIML Quiz Competition
 
 INSERT INTO questions (question_text, option1, option2, option3, option4, correct_answer) VALUES
 ('Which Indian mission used AI for Earth Observation and Disaster Management?','Gaganyan','RISAT/EOS series','Mangalyan','NavIC', 2),
@@ -10,34 +10,30 @@ INSERT INTO questions (question_text, option1, option2, option3, option4, correc
 Reason (R): AI model can analyze patterns.','Both A and R are TRUE and R explains A.','Both A and R are TRUE but R does not explains A.','A Is TRUE, R is FALSE','A is FALSE, R is TRUE', 1),
 ('Virtual Assistants like ALEXA or SIRI mainly use:', 'Computer Vision','NLP','Robotics','Recommender System', 2),
 ('Which AI technique is primarily used in Self-Driving Cars to detect lanes and pedestrians?', 'NLP', 'Computer Vision', 'Expert System', 'Genetic Algorithm', 2),
-('Which Algorithm Google Maps used to find shortest path?','Euclidian Distance / Manhattan Distance','A* Algorithm / Dijkstra’s Algorithm','Bellman Ford Algorithm / Kruskal’s Algorithm','BFS / DFS', 2),
-('Who wrote “Discovery of India”?','Rabindranath Tagore','Jawaharlal Nehru','Dr. A. P. J. Abdul Kalam','Dr. B. R. Ambedkar', 2),
-('India’s First Artificial Satellite was:', 'Aryabhata', 'PSLV', 'Chandrayan-II', 'INSAT', 1),
+('Which Algorithm Google Maps used to find shortest path?','Euclidian Distance / Manhattan Distance','A* Algorithm / Dijkstra''s Algorithm','Bellman Ford Algorithm / Kruskal''s Algorithm','BFS / DFS', 2),
+('Who wrote Discovery of India?','Rabindranath Tagore','Jawaharlal Nehru','Dr. A. P. J. Abdul Kalam','Dr. B. R. Ambedkar', 2),
+('India''s First Artificial Satellite was:', 'Aryabhata', 'PSLV', 'Chandrayan-II', 'INSAT', 1),
 ('What is E-Waste?','Waste generated from Agricultural practices','Waste generated from Domestic practices','Waste generated from Discarded appliances','Waste generated from used data', 3),
-('“All robots are machine.”
-“Some machines are autonomous.”
-Then which is VALID?','All robots are autonomous','Some robots may be autonomous','No robot is autonomous','Robots are not machines', 2),
+('All robots are machine. Some machines are autonomous. Then which is VALID?','All robots are autonomous','Some robots may be autonomous','No robot is autonomous','Robots are not machines', 2),
 ('Which AI technique is inspired by the human brain?','Genetic Algorithm','Neural Networks','Fuzzy Logic','Decision Tree', 2),
 ('In Reinforcement Learning, system learns using:','Predefined Knowledge','Labels','Reward and Penalties','Random Guessing', 3),
 ('GPT stands for:','General Pre-Trained Model','Generative Pre-Transformed Model','General  Pre-Transformed Model','Generative Pre- Trained Model', 4),
 ('A man walks 6 km in North, then 8 km in East. How far is he from starting point?','6  km','8 km','10 km','14 km', 3),
 ('AI that can perform only one specific task is called.', 'General AI', 'Super AI', 'Narrow AI', 'Strong AI', 3),
-('Which language is commonly used in AI programming','HTML','Python','SQL','JAVA', 2),
+('Which language is commonly used in AI programming?','HTML','Python','SQL','JAVA', 2),
 ('Face Unlock in Smartphones uses:','NLP','Speech Recognition','Computer Vision','Cryptography', 3),
-('Introducing a man, Asha said: “He is the son of the woman who is the mother of the husband of my mother.” How is the man related to Asha?','Father','Brother','Uncle','Son', 3),
+('Introducing a man, Asha said: He is the son of the woman who is the mother of the husband of my mother. How is the man related to Asha?','Father','Brother','Uncle','Son', 3),
 ('Carbon Footprint of AI increases mainly due to :','Screen Brightness','Internet','Training large Models','Different AI applications', 3),
-('A is taller than B.
-B is shorter than C.
-C is taller than A.
-Who is tallest?','A','B','C','Cannot be determined', 3),
-('Solar panels work on principle of:', 'Thermionic Emission', 'Photoelectronic Effect', 'Electromagnetic Induction', 'Nuclear Fusion', 2),
+('A is taller than B. B is shorter than C. C is taller than A. Who is tallest?','A','B','C','Cannot be determined', 3),
+('Solar panels work on principle of:','Thermionic Emission','Photoelectronic Effect','Electromagnetic Induction','Nuclear Fusion', 2),
 ('Which energy conversion in a hydroelectric plant?','Electrical to Mechanical','Chemical to Electrical','Thermal to Mechanical','Kinetic to Electrical', 4),
-('Which source of energy causes least pollution?','Coal','Diesel','Solar','Hydrogen', 3);
+('Which source of energy causes least pollution?','Coal','Diesel','Solar','Hydrogen', 3),
 ('Vande Mataram was originally written in which language?','Hindi','Sanskrit','Bengali','Urdu', 3),
-('Which company developed the AI model “ChatGPT”?','Google','Microsoft','OpenAI','IBM', 3);
-('Which of the following tasks is hardest for AI?','Playing chess','Solving complex math equations','Recognizing sarcasm in text','Calculating large numbers', 3);
-('If an AI chatbot answers confidently but gives wrong information, this is known as:','Optimization','Hallucination','Encryption','Debugging', 2);
+('Which company developed the AI model ChatGPT?','Google','Microsoft','OpenAI','IBM', 3),
+('Which of the following tasks is hardest for AI?','Playing chess','Solving complex math equations','Recognizing sarcasm in text','Calculating large numbers', 3),
+('If an AI chatbot answers confidently but gives wrong information, this is known as:','Optimization','Hallucination','Encryption','Debugging', 2),
 ('If a self-driving car must choose between hitting two objects, which AI concept is mainly involved?','Sorting Algorithm','Ethical Decision-Making in AI','File Compression','Data Formatting', 2);
+
 -- Verification
-SELECT 'New questions added' AS status;
+SELECT 'All questions added' AS status;
 SELECT COUNT(*) AS total_questions FROM questions;

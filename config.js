@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 const QUIZ_CONFIG = {
     TIME_LIMIT: 1200,
     WARNING_COUNT_LIMIT: 3,
-    QUESTIONS_PER_QUIZ: 10,
+    QUESTIONS_PER_QUIZ: 30,
     PASSING_SCORE: 70
 };
 
